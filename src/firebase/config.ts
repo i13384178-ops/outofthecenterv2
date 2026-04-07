@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { initializeFirestore } from 'firebase/firestore';
 
+/** Matches Firebase Console → Project settings → Your apps → Web app config. */
 const firebaseConfig = {
   apiKey: 'AIzaSyBs41tHcv4ilKP_lPCrsId6y9MxvHr9QDE',
   authDomain: 'outofcenter-2c2a4.firebaseapp.com',

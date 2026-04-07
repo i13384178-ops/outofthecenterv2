@@ -74,7 +74,12 @@ export async function ensureCampInitialized(): Promise<void> {
   const snap = await getDoc(ref);
   const local = loadLocalDB();
   if (!snap.exists() && (local.entries.length > 0 || local.passwordOk)) {
-    await setDoc(ref, plainForFirestore(stamp(local)));
+    try {
+      await setDoc(ref, plainForFirestore(stamp(local)));
+    } catch (err) {
+      console.error('[camp] Firestore initial upload failed:', err);
+      throw err;
+    }
   }
 }
 
@@ -106,7 +111,8 @@ export async function pushCampDB(db: CampDB): Promise<CampDB | null> {
     await setDoc(CAMP_DOC(), plainForFirestore(body));
     saveLocalDB(body);
     return body;
-  } catch {
+  } catch (err) {
+    console.error('[camp] Firestore write failed (check Firestore Rules for camp/state):', err);
     return null;
   }
 }
